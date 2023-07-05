@@ -13,6 +13,8 @@ from rdkit import DataStructs
 from rdkit import RDLogger
 from rdkit.Chem import rdMolDescriptors
 
+from sentence_transformers import SentenceTransformer
+
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -100,15 +102,20 @@ class ChEBI20:
         self._write_lit_llama(dir / "val.json", self.train)
 
 
-def tanimoto_table(train: ChEBI20.DType, test: ChEBI20.DType) -> dict[str, list[int | str]]:
+def tanimoto_table(train: ChEBI20.DType, test: ChEBI20.DType, k: int) -> dict[str, list[int | str]]:
     """Generates a Tanimoto similarity table."""
 
-    neighbors = defaultdict(list)
+    data = defaultdict(list)
     for item1 in tqdm.tqdm(test, desc="Generating Tanimoto similarity table"):
         for item2 in train:
             m1, s1 = item1["MORGAN"], item1["SMILES"]
             m2, s2, txt2 = item2["MORGAN"], item2["SMILES"], item2["description"]
             sim = DataStructs.TanimotoSimilarity(m1, m2)
-            heapq.heappush(neighbors[s1], (-sim, s2, txt2))
+            heapq.heappush(data[s1], (-sim, s2, txt2))
+
+    neighbors = {
+        key: [{"SIM": -sim, "SMILES": smiles, "CAP": cap} for (sim, smiles, cap) in val[:k]]
+        for key, val in data.items()
+    }
 
     return neighbors
