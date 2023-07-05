@@ -1,7 +1,20 @@
 import argparse
 import csv
+import heapq
 import json
 import pathlib
+
+import tqdm
+
+from collections import defaultdict
+
+from rdkit import Chem
+from rdkit import DataStructs
+from rdkit import RDLogger
+from rdkit.Chem import rdMolDescriptors
+
+
+RDLogger.DisableLog("rdApp.*")
 
 
 def parse_args() -> argparse.Namespace:
@@ -14,6 +27,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--val", type=str, help="path to validation dataset", required=True)
 
     return parser.parse_args()
+
+
+def morgan_fingerprint(smile: str) -> DataStructs.cDataStructs.ExplicitBitVect:
+    """Generates Morgan fingerprints using the given SMILES string."""
+
+    mol = Chem.MolFromSmiles(smile)
+    mor = Chem.rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, radius=2)
+
+    return mor
 
 
 class ChEBI20:
@@ -47,6 +69,19 @@ class ChEBI20:
 
         return data
 
+    def _generate_morgan_fingerprints(self, data: DType) -> None:
+        """Generates Morgan fingerprints."""
+
+        for item in tqdm.tqdm(data, desc="Generating Morgan fingerprints"):
+            item["MORGAN"] = morgan_fingerprint(item["SMILES"])
+
+    def generate_morgan_fingerprints(self) -> None:
+        """Generates Morgan fingerprints for all data."""
+
+        self._generate_morgan_fingerprints(self.train)
+        self._generate_morgan_fingerprints(self.test)
+        self._generate_morgan_fingerprints(self.val)
+
     def _write_lit_llama(self, path: str, data: DType) -> None:
         """Writes a data file in the format compatible with Lit-LLaMA."""
 
@@ -63,3 +98,17 @@ class ChEBI20:
         self._write_lit_llama(dir / "train.json", self.val)
         self._write_lit_llama(dir / "test.json", self.test)
         self._write_lit_llama(dir / "val.json", self.train)
+
+
+def tanimoto_table(train: ChEBI20.DType, test: ChEBI20.DType) -> dict[str, list[int | str]]:
+    """Generates a Tanimoto similarity table."""
+
+    neighbors = defaultdict(list)
+    for item1 in tqdm.tqdm(test, desc="Generating Tanimoto similarity table"):
+        for item2 in train:
+            m1, s1 = item1["MORGAN"], item1["SMILES"]
+            m2, s2, txt2 = item2["MORGAN"], item2["SMILES"], item2["description"]
+            sim = DataStructs.TanimotoSimilarity(m1, m2)
+            heapq.heappush(neighbors[s1], (-sim, s2, txt2))
+
+    return neighbors
