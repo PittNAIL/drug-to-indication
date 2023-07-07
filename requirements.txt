@@ -1,1 +1,2 @@
 rdkit==2023.3.2
+sentence-transformers==2.2.2
