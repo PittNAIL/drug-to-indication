@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-from rdkit import Chem
+import csv
 
+from rdkit import Chem
 from tqdm import tqdm
 
 
@@ -13,21 +14,23 @@ def is_valid(smiles: str) -> bool:
     return False if Chem.MolFromSmiles(smiles, sanitize=False) is None else True
 
 
-def read_and_validate(path: str, size_limit: int = 100_000) -> list[str]:
+def read_validate_write(path: str) -> None:
     """Validates the Pubchem database of SMILES strings."""
 
     data = []
-    with open(path, encoding="utf-8") as file, tqdm(total=size_limit, desc="Validating CID-SMILES") as pbar:
-        count = 0
-        while (line := file.readline()) and count < size_limit:
+    with open(path) as file, tqdm(total=115_700_261, desc="Validating CID-SMILES...") as pbar:
+        while line := file.readline():
             smiles = line.split()[1]
             assert is_valid(smiles)
             data.append(smiles)
-            count += 1
             pbar.update(1)
 
-    return data
+    with open("SMILES.csv", "w", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(["text"])
+        for smiles in data:
+            writer.writerow([smiles])
 
 
 if __name__ == "__main__":
-    _ = read_and_validate("data/CID-SMILES")
+    read_validate_write("CID-SMILES")
