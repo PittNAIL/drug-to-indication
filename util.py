@@ -31,6 +31,12 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def canonicalize_smiles(smiles: str) -> Chem.CanonSmiles:
+    """Canonicalizes the given SMILES string."""
+
+    return Chem.MolToSmiles(Chem.MolFromSmiles(smiles), canonical=True)
+
+
 def morgan_fingerprint(smile: str) -> DataStructs.cDataStructs.ExplicitBitVect:
     """Generates Morgan fingerprints using the given SMILES string."""
 

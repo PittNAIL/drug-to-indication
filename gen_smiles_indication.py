@@ -8,6 +8,8 @@ import tqdm
 
 import xml.etree.ElementTree as ET
 
+import util
+
 
 def parse_args() -> argparse.Namespace:
     """Parses the command line arguments."""
@@ -51,13 +53,20 @@ def main() -> None:
         )
 
     logger.info(f"{len(drugs)} entries before filtering")
-    # Filtering: both smiles and indication must be present
-    drugs = [drug for drug in drugs if drug["smiles"] and drug["indication"]]
+    filtered_drugs = []
+    for drug in tqdm.tqdm(drugs, desc="Filtering and canonicalizing DrugBank database..."):
+        if not (drug["smiles"] and drug["indication"]):
+            continue
+        try:
+            drug["canonical_smiles"] = util.canonicalize_smiles(drug["smiles"])
+            filtered_drugs.append(drug)
+        except Exception:
+            pass
     logger.info(f"{len(drugs)} entries after filtering")
 
     logger.info(f"Writing to a {args.out_json}...")
     with open(args.out_json, "w", encoding="utf-8") as file:
-        json.dump(drugs, file, ensure_ascii=False, indent=2)
+        json.dump(filtered_drugs, file, ensure_ascii=False, indent=2)
     logger.info("Writing finished!")
 
 
