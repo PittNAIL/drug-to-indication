@@ -37,13 +37,22 @@ def canonicalize_smiles(smiles: str) -> Chem.CanonSmiles:
     return Chem.MolToSmiles(Chem.MolFromSmiles(smiles), canonical=True)
 
 
-def morgan_fingerprint(smile: str) -> DataStructs.cDataStructs.ExplicitBitVect:
+def morgan_fingerprint(smiles: str) -> DataStructs.cDataStructs.ExplicitBitVect:
     """Generates Morgan fingerprints using the given SMILES string."""
 
-    mol = Chem.MolFromSmiles(smile)
+    mol = Chem.MolFromSmiles(smiles)
     mor = Chem.rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, radius=2)
 
     return mor
+
+
+def tanimoto_similarity(smiles1: str, smiles2: str) -> float:
+    """Computes a Tanimoto similarity between two SMILES strings."""
+
+    m1, m2 = morgan_fingerprint(smiles1), morgan_fingerprint(smiles2)
+    sim = DataStructs.TanimotoSimilarity(m1, m2)
+
+    return sim
 
 
 class ChEBI20:
