@@ -6,13 +6,10 @@ from io import StringIO
 
 def connect_to_postgres(dbname, user, password, host):
     try:
-        # Establish a connection to the database
         connection = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
 
-        # Create a cursor object to interact with the database
         cursor = connection.cursor()
 
-        # Read the query from the file
         query = """                                                       
   SELECT canonical_smiles, indication_name
   FROM (
@@ -35,10 +32,8 @@ def connect_to_postgres(dbname, user, password, host):
   ) ranked                                                       
   WHERE rnk <= 16;                                                              
 """
-        # Execute the query
         cursor.execute(query)
 
-        # Fetch the result
         records = cursor.fetchall()
 
         # Save the records to a CSV file
@@ -59,7 +54,6 @@ def connect_to_postgres(dbname, user, password, host):
         print("Error while connecting to PostgreSQL or executing query", error)
 
     finally:
-        # Close the connection and cursor
         if connection:
             cursor.close()
             connection.close()
@@ -90,7 +84,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # Set up command-line argument parsing
     main()
-
-    # Parse the command-line arguments
