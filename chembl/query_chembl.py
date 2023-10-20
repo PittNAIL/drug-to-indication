@@ -14,12 +14,8 @@ def connect_to_postgres(dbname, user, password, host):
   SELECT canonical_smiles, indication_name
   FROM (
     SELECT
-      ch.chembl_id,
-      ch.entity_id,
-      md.pref_name,
       cs.canonical_smiles,
-      di.efo_term as indication_name,
-      ROW_NUMBER() OVER (PARTITION BY ch.chembl_id ORDER BY di.efo_term) as rnk
+      di.efo_term as indication_name
     FROM
       chembl_id_lookup ch
       JOIN molecule_dictionary md ON ch.chembl_id = md.chembl_id
@@ -29,8 +25,7 @@ def connect_to_postgres(dbname, user, password, host):
       ch.entity_type = 'COMPOUND' AND
       ch.status = 'ACTIVE' AND
       md.pref_name IS NOT NULL
-  ) ranked                                                       
-  WHERE rnk <= 16;                                                              
+  ) as subquery;                                                              
 """
         cursor.execute(query)
 
@@ -38,15 +33,7 @@ def connect_to_postgres(dbname, user, password, host):
 
         # Save the records to a CSV file
         df = pd.DataFrame(records, columns=[desc[0] for desc in cursor.description])
-        grouped_df = (
-            df.groupby(["canonical_smiles"])["indication_name"]
-            .agg(lambda x: ", ".join(str(val) for val in x if not pd.isna(val)))
-            .reset_index()
-        )
-        grouped_df["indication_name"] = (
-            "Medical conditions treated by this drug: " + grouped_df["indication_name"]
-        )
-        grouped_df.to_csv("chembl_data.csv", index=False)
+        df.to_csv("chembl_data.csv", index=False)
 
         print("CSV file saved successfully.")
 
