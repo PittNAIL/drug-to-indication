@@ -37,6 +37,15 @@ def canonicalize_smiles(smiles: str) -> Chem.CanonSmiles:
     return Chem.MolToSmiles(Chem.MolFromSmiles(smiles), canonical=True)
 
 
+def maccs_fingerprint(smiles: str) -> DataStructs.cDataStructs.ExplicitBitVect:
+    """Generates MACCS fingerprints using the given SMILES string."""
+
+    mol = Chem.MolFromSmiles(smiles)
+    mor = Chem.rdMolDescriptors.GetMACCSKeysFingerprint(mol)
+
+    return mor
+
+
 def morgan_fingerprint(smiles: str) -> DataStructs.cDataStructs.ExplicitBitVect:
     """Generates Morgan fingerprints using the given SMILES string."""
 
