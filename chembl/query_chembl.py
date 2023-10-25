@@ -1,5 +1,7 @@
-import psycopg2
 import argparse
+import json
+import psycopg2
+
 import pandas as pd
 from io import StringIO
 
@@ -11,21 +13,18 @@ def connect_to_postgres(dbname, user, password, host):
         cursor = connection.cursor()
 
         query = """                                                       
-  SELECT canonical_smiles, indication_name
-  FROM (
-    SELECT
-      cs.canonical_smiles,
-      di.efo_term as indication_name
-    FROM
-      chembl_id_lookup ch
-      JOIN molecule_dictionary md ON ch.chembl_id = md.chembl_id
-      JOIN drug_indication di ON md.molregno = di.molregno
-      JOIN compound_structures cs ON md.molregno = cs.molregno
-    WHERE
-      ch.entity_type = 'COMPOUND' AND
-      ch.status = 'ACTIVE' AND
-      md.pref_name IS NOT NULL
-  ) as subquery;                                                              
+  SELECT
+    md.pref_name,
+    ms.synonyms,
+    cs.canonical_smiles
+  FROM
+    molecule_synonyms ms 
+    join compound_structures cs on ms.molregno=cs.molregno 
+    join molecule_dictionary md on md.molregno = ms.molregno 
+  WHERE
+    md.pref_name IS NOT NULL AND 
+    (ms.syn_type='OTHER' OR
+     ms.syn_type='RESEARCH_CODE');                                                       
 """
         cursor.execute(query)
 
@@ -33,9 +32,22 @@ def connect_to_postgres(dbname, user, password, host):
 
         # Save the records to a CSV file
         df = pd.DataFrame(records, columns=[desc[0] for desc in cursor.description])
-        df.to_csv("chembl_data.csv", index=False)
-
-        print("CSV file saved successfully.")
+        
+        grouped_df = df.groupby(['pref_name', 'canonical_smiles'])['synonyms'].agg(list).reset_index()
+        
+        chembl_json = {}
+        
+        for _, row in grouped_df.iterrows():
+            drug = row['pref_name']
+            smiles = row['canonical_smiles']
+            synonyms = row['synonyms']
+            drug_dict = {'smiles':smiles, 'synonyms':synonyms}
+            chembl_json[drug] = drug_dict
+        
+        with open('chembl.json', 'w') as f:
+            json.dump(chembl_json, f)
+            
+        print("JSON file saved successfully.")
 
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to PostgreSQL or executing query", error)
