@@ -32,21 +32,23 @@ def connect_to_postgres(dbname, user, password, host):
 
         # Save the records to a CSV file
         df = pd.DataFrame(records, columns=[desc[0] for desc in cursor.description])
-        
-        grouped_df = df.groupby(['pref_name', 'canonical_smiles'])['synonyms'].agg(list).reset_index()
-        
+
+        grouped_df = (
+            df.groupby(["pref_name", "canonical_smiles"])["synonyms"].agg(list).reset_index()
+        )
+
         chembl_json = {}
-        
+
         for _, row in grouped_df.iterrows():
-            drug = row['pref_name']
-            smiles = row['canonical_smiles']
-            synonyms = row['synonyms']
-            drug_dict = {'smiles':smiles, 'synonyms':synonyms}
+            drug = row["pref_name"]
+            smiles = row["canonical_smiles"]
+            synonyms = row["synonyms"]
+            drug_dict = {"smiles": smiles, "synonyms": synonyms}
             chembl_json[drug] = drug_dict
-        
-        with open('chembl.json', 'w') as f:
+
+        with open("chembl.json", "w") as f:
             json.dump(chembl_json, f)
-            
+
         print("JSON file saved successfully.")
 
     except (Exception, psycopg2.Error) as error:

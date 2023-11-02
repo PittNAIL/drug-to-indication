@@ -64,6 +64,15 @@ def tanimoto_similarity(smiles1: str, smiles2: str) -> float:
     return sim
 
 
+def is_valid_smiles(smiles: str) -> bool:
+    """Checks whether the given SMILES string is syntactically valid.
+
+    See: https://github.com/rdkit/rdkit/issues/2430
+    """
+
+    return False if Chem.MolFromSmiles(smiles, sanitize=False) is None else True
+
+
 class ChEBI20:
     """ChEBI-20 dataset.
 

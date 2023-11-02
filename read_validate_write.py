@@ -4,24 +4,17 @@ import csv
 from rdkit import Chem
 from tqdm import tqdm
 
-
-def is_valid(smiles: str) -> bool:
-    """Checks whether the given SMILES string is syntactically valid.
-
-    See: https://github.com/rdkit/rdkit/issues/2430
-    """
-
-    return False if Chem.MolFromSmiles(smiles, sanitize=False) is None else True
+from util import is_valid_smiles
 
 
 def read_validate_write(path: str) -> None:
     """Validates the Pubchem database of SMILES strings."""
 
     data = []
-    with open(path) as file, tqdm(total=115_700_261, desc="Validating CID-SMILES...") as pbar:
+    with open(path) as file, tqdm(total=115_371_812, desc="Validating CID-SMILES...") as pbar:
         while line := file.readline():
             smiles = line.split()[1]
-            assert is_valid(smiles)
+            assert is_valid_smiles(smiles)
             data.append(smiles)
             pbar.update(1)
 
