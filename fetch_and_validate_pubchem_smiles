@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-LINK=https://ftp.ncbi.nlm.nih.gov/pubchem/Compound/Weekly/2023-08-20/Extras/CID-SMILES.gz
+
+
+LINK=https://ftp.ncbi.nlm.nih.gov/pubchem/Compound/Weekly/2023-10-29/Extras/CID-SMILES.gz
 FILE=CID-SMILES.gz
 
 wget -q --show-progress -O "$FILE" "$LINK" && gunzip "$FILE" && ./read_validate_write.py
