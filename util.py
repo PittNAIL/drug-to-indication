@@ -34,25 +34,25 @@ def parse_args() -> argparse.Namespace:
 def canonicalize_smiles(smiles: str) -> Chem.CanonSmiles:
     """Canonicalizes the given SMILES string."""
 
-    return Chem.MolToSmiles(Chem.MolFromSmiles(smiles), canonical=True)
+    return Chem.CanonSmiles(smiles)
 
 
 def maccs_fingerprint(smiles: str) -> DataStructs.cDataStructs.ExplicitBitVect:
     """Generates MACCS fingerprints using the given SMILES string."""
 
     mol = Chem.MolFromSmiles(smiles)
-    mor = Chem.rdMolDescriptors.GetMACCSKeysFingerprint(mol)
+    vec = Chem.rdMolDescriptors.GetMACCSKeysFingerprint(mol)
 
-    return mor
+    return vec
 
 
 def morgan_fingerprint(smiles: str) -> DataStructs.cDataStructs.ExplicitBitVect:
     """Generates Morgan fingerprints using the given SMILES string."""
 
     mol = Chem.MolFromSmiles(smiles)
-    mor = Chem.rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, radius=2)
+    vec = Chem.rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, radius=2)
 
-    return mor
+    return vec
 
 
 def tanimoto_similarity(smiles1: str, smiles2: str) -> float:
