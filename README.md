@@ -1,13 +1,7 @@
 # molecular-captioning
 
-## Inference and Evaluation
+## Obtain SMILES from PubChem
 
 ```console
-$ ./main.py --help
+$ ./fetch_pubchem_smiles
 ```
-
-## License
-
-[MIT License][license]
-
-[license]: LICENSE
