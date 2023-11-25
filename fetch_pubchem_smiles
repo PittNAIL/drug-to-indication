@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-
 LINK=https://ftp.ncbi.nlm.nih.gov/pubchem/Compound/Weekly/2023-10-29/Extras/CID-SMILES.gz
 FILE=CID-SMILES.gz
 
