@@ -18,9 +18,8 @@ SEED: int = 1_337
 
 set_seed(SEED)
 
-models = ["laituan245/molt5-small", "t5-small"]
-tasks = ["smiles2indication", "indication2target"]
-
+models = ["laituan245/molt5-small"]
+tasks = ["smiles2indication", "indication2smiles"]
 
 class MyDataset(Dataset):
     def __init__(self, data, tokenizer, task, max_length=512):
@@ -65,7 +64,7 @@ class MyDataset(Dataset):
 
 
 def main() -> None:
-    drugs = pd.read_csv("indications2smiles.csv")
+    drugs = pd.read_csv("imputed_chembl.csv")
     drugs_train, drugs_test = train_test_split(drugs, test_size=0.2, random_state=SEED)
 
     for task in tasks:
@@ -122,7 +121,8 @@ def main() -> None:
                     model_data["indication"].append(drug["indication_name"])
                     model_data["ground truth"].append(drug["canonical_smiles"])
                     model_data["output"].append(output_final)
-                df_model = pd.DataFrame(model_data)
+                df_model = pd.DataFrame(model_data, columns = ["description", "ground truth",
+                                                               "output"])
                 df_model.to_csv(f"chembl_fine_tuned_{model_name}_{task}.txt", sep="\t", index=False)
 
             if task == "smiles2indication":
@@ -140,7 +140,7 @@ def main() -> None:
                     model_data["canonical_smiles"].append(drug["canonical_smiles"])
                     model_data["ground truth"].append(drug["indication_name"])
                     model_data["output"].append(output_final)
-                df_model = pd.DataFrame(model_data)
+                df_model = pd.DataFrame(model_data, columns = ["SMILES", "ground truth", "output"])
                 df_model.to_csv(f"chembl_fine_tuned_{model_name}_{task}.txt", sep="\t", index=False)
 
 
