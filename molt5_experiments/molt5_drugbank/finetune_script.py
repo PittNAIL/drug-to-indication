@@ -8,8 +8,8 @@ import pandas as pd
 
 from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
-from transformers import Trainer, TrainingArguments, T5Tokenizer, T5ForConditionalGeneration
-from transformers import set_seed, AutoModelForMaskedLM, AutoTokenizer, AutoModelForCausalLM
+from transformers import Trainer, TrainingArguments
+from transformers import set_seed, AutoTokenizer
 from transformers import AutoModelForSeq2SeqLM
 
 
@@ -71,11 +71,10 @@ def main() -> None:
     for task in tasks:
         for model in models:
             model_name = f"{model}"
-            # tokenizer = T5Tokenizer.from_pretrained(f"{model}", model_max_length=512)
             tokenizer = AutoTokenizer.from_pretrained(
                 f"laituan245/molt5-{model}", model_max_length=512
             )
-            molt_model = T5ForConditionalGeneration.from_pretrained(f"laituan245/molt5-{model}").to(
+            molt_model = AutoModelForSeq2SeqLM.from_pretrained(f"laituan245/molt5-{model}").to(
                 "cuda"
             )
             if tokenizer.pad_token is None:
@@ -111,7 +110,7 @@ def main() -> None:
 
             if task == "caption2smiles":
                 df_cols = ["indication", "canonical_smiles", "output"]
-                fine_tuned_model = T5ForConditionalGeneration.from_pretrained(
+                fine_tuned_model = AutoModelForSeq2SeqLM.from_pretrained(
                     f"{output_directory}/checkpoint-900"
                 ).to("cuda")
                 model_data = []
@@ -131,7 +130,7 @@ def main() -> None:
 
             if task == "smiles2caption":
                 df_cols = ["canonical_smiles", "indication", "output"]
-                fine_tuned_model = T5ForConditionalGeneration.from_pretrained(
+                fine_tuned_model = AutoModelForSeq2SeqLM.from_pretrained(
                     f"{output_directory}/checkpoint-900"
                 ).to("cuda")
                 model_data = []
