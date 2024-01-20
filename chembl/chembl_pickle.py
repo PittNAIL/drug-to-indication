@@ -25,9 +25,9 @@ data_dict = dict(zip(cids, smiles))
 with open("chembl_cids.pkl", "wb") as handle:
     pickle.dump(data_dict, handle)
 
-with open('chembl_cids.pkl', 'rb') as f:
+with open("chembl_cids.pkl", "rb") as f:
     cids_to_smiles = pickle.load(f)
 
-df = df[df['canonical_smiles'].isin(cids_to_smiles.values())]
+df = df[df["canonical_smiles"].isin(cids_to_smiles.values())]
 
 df.to_csv("chembl_data.csv")
