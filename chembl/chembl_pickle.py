@@ -4,7 +4,7 @@ import tqdm
 import pandas as pd
 import pubchempy as pcp
 
-df = pd.read_csv("chembl_data.csv")
+df = pd.read_csv("/home/joh195/experiments/chembl_indications_smiles.csv")
 
 smiles = df["canonical_smiles"]
 
@@ -24,5 +24,10 @@ data_dict = dict(zip(cids, smiles))
 
 with open("chembl_cids.pkl", "wb") as handle:
     pickle.dump(data_dict, handle)
+
+with open('chembl_cids.pkl', 'rb') as f:
+    cids_to_smiles = pickle.load(f)
+
+df = df[df['canonical_smiles'].isin(cids_to_smiles.values())]
 
 df.to_csv("chembl_data.csv")
