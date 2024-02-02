@@ -15,19 +15,13 @@ tasks = ["indication2smiles", "smiles2indication"]
 
 
 def main() -> None:
-    drugs = pd.read_csv("imputed_chembl.csv")
+    drugs = pd.read_csv("imputed_chembl.csv", nrows=2)
     drugs_train, drugs_test = train_test_split(drugs, test_size=0.2, random_state=SEED)
     for task in tasks:
         for model in models:
             model_name = f"{model}"
             print(f"Evaluating {model} on {task}")
             if task == "indication2smiles":
-                if (model == "molt5-small") & (task == "indication2smiles"):
-                    print(f"skipping {model} on {task}")
-                    continue
-                if (model == "molt5-base") & (task == "indication2smiles"):
-                    print(f"Skipping {model} on {task}")
-                    continue
                 model_state = f"laituan245/{model}-caption2smiles"
                 molt_model = T5ForConditionalGeneration.from_pretrained(model_state).to("cuda")
                 tokenizer = T5Tokenizer.from_pretrained(model_state)
