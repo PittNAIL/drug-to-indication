@@ -66,7 +66,7 @@ class PrepDataset(Dataset):
 def eval_drugs(task, model, data, method, tokenizer):
     if method == "finetuned":
         task_model = T5ForConditionalGeneration.from_pretrained(f"{model}").to("cuda")
-        model = model.split("/")[0]
+        model = model.split("_")[2]
     else:
         if task == "smiles2indication":
             task_model = T5ForConditionalGeneration.from_pretrained(
@@ -114,7 +114,7 @@ def main() -> None:
                 for model in models:
                     molt_model = T5ForConditionalGeneration.from_pretrained(f"laituan245/{model}")
                     tokenizer = T5Tokenizer.from_pretrained(f"laituan245/{model}")
-                    output_directory = f"fine_tuned_{model}_{task}"
+                    output_directory = f"drugbank_ft_{model}_{task}"
                     training_args = TrainingArguments(
                         output_dir=output_directory,
                         overwrite_output_dir=False,

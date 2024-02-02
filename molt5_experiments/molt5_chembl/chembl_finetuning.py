@@ -69,9 +69,6 @@ def main() -> None:
                 model_name = model
             tokenizer = AutoTokenizer.from_pretrained(f"{model}", model_max_length=512)
             molt_model = AutoModelForSeq2SeqLM.from_pretrained(f"{model}").to("cuda")
-            if tokenizer.pad_token is None:
-                tokenizer.add_special_tokens({"pad_token": "[PAD]"})
-                molt_model.resize_token_embeddings(len(tokenizer))
             output_directory = f"fine_tuned_{model_name}_{task}"
             training_args = TrainingArguments(
                 output_dir=output_directory,
