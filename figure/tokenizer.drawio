@@ -1,0 +1,52 @@
+<mxfile host="Electron" modified="2024-02-14T02:51:31.645Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.2.2 Safari/537.36" etag="jrHsnrule_EawwqTejL_" version="23.0.2" type="device">
+  <diagram name="Page-1" id="3GinpwUumfZcRF2tVcDU">
+    <mxGraphModel dx="1472" dy="1120" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yZ550P0sdeZeeuUyea0I-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8F9F7;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="-80" y="460" width="1000" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="yZ550P0sdeZeeuUyea0I-22" value="&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Comic Neue&quot;&gt;MolT5 and Custom Tokenizers&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="298" y="730" width="244" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-4" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&#39;_&#39;, &#39;CC&#39;, &#39;(&#39;, &#39;=&#39;, &#39;O&#39;, &#39;)&#39;, &#39;OC&#39;,&lt;br&gt;&#39;1&#39;, &#39;=&#39;, &#39;CC&#39;, &#39;=&#39;, &#39;CC&#39;, &#39;=&#39;, &#39;C&#39;,&lt;br&gt;&#39;1&#39;, &#39;C&#39;, &#39;(&#39;, &#39;=&#39;, &#39;O&#39;, &#39;)&#39;, &#39;O&#39;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Neue;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DComic%2BNeue;fillColor=#EEEEEE;strokeColor=#000000;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="664.5" y="480" width="216" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-5" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&#39;CC(=O)&#39;, &#39;OC1&#39;, &#39;=&#39;, &#39;CC=&#39;,&lt;br&gt;&#39;CC=&#39;, &#39;C1&#39;, &#39;C(=O)O&#39;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Neue;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DComic%2BNeue;fillColor=#EEEEEE;strokeColor=#000000;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="664.5" y="630" width="216" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-6" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;CC(=O)OC1=CC=CC=C1C(=O)O&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Neue;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DComic%2BNeue;fillColor=#FFF3A6;strokeColor=#000000;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="-40.5" y="555" width="206.25" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#000000;" parent="1" source="wfrXqrs1ZGlOtKyZvHgN-7" target="wfrXqrs1ZGlOtKyZvHgN-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-7" value="&lt;font face=&quot;Comic Neue&quot; style=&quot;font-size: 14px;&quot;&gt;Custom&lt;br&gt;Tokenizer&lt;/font&gt;" style="html=1;shadow=1;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0;dx=30;notch=30;fillColor=#CCE5FF;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="402.5" y="630" width="140" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#000000;" parent="1" source="wfrXqrs1ZGlOtKyZvHgN-8" target="wfrXqrs1ZGlOtKyZvHgN-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-8" value="&lt;font face=&quot;Comic Neue&quot; style=&quot;font-size: 14px;&quot;&gt;MolT5&lt;br&gt;Tokenizer&lt;/font&gt;" style="html=1;shadow=1;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0;dx=30;notch=30;fillColor=#CCE5FF;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="402.5" y="480" width="140" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=30;entryDy=0;entryPerimeter=0;curved=0;strokeWidth=2;strokeColor=#000000;" parent="1" source="wfrXqrs1ZGlOtKyZvHgN-6" target="wfrXqrs1ZGlOtKyZvHgN-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfrXqrs1ZGlOtKyZvHgN-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=30;entryDy=0;entryPerimeter=0;curved=0;strokeWidth=2;strokeColor=#000000;" parent="1" source="wfrXqrs1ZGlOtKyZvHgN-6" target="wfrXqrs1ZGlOtKyZvHgN-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AgISof0uk6jRqvVt4-Ma-1" value="&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Comic Neue&quot;&gt;Tokenized by Subword&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="691" y="555" width="163" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AgISof0uk6jRqvVt4-Ma-3" value="&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Comic Neue&quot;&gt;Tokenized by SMILES Component&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="660.38" y="705" width="224.25" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yRQUzvszTWf-6guSvU4I-2" value="&lt;font style=&quot;font-size: 14px;&quot; face=&quot;Comic Neue&quot;&gt;Sample SMILES String&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-18.870000000000005" y="630" width="163" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
